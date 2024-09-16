@@ -1,5 +1,6 @@
 pour chaque participants:
 
-NOM prenom 
+HERBAUT Titouan
+LAMARTI Naïl
 
 ...
