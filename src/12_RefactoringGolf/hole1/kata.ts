@@ -12,7 +12,7 @@ const emptyPlay = ' ';
 
 export class Game {
   private _lastSymbol = emptyPlay;
-  private _board: Board = new Board();
+  private _grid: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
     this.validateFirstMove(symbol);
@@ -38,7 +38,7 @@ export class Game {
   }
 
   private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).isNotEmpty) {
+    if (this._grid.TileAt(x, y).isNotEmpty) {
       throw new Error('Invalid position');
     }
   }
@@ -48,22 +48,22 @@ export class Game {
   }
 
   private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(player, x, y);
+    this._grid.AddTileAt(player, x, y);
   }
 
   public Winner(): string {
-    return this._board.findRowFullWithSamePlayer();
+    return this._grid.findRowFullWithSamePlayer();
   }
 }
 
 class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private symbol: string = ' ';
+  private coordinateX: number = 0;
+  private coordinateY: number = 0;
+  private symbol: string = emptyPlay;
 
   constructor(x: number, y: number, symbol: string) {
-    this.x = x;
-    this.y = y;
+    this.coordinateX = x;
+    this.coordinateY = y;
     this.symbol = symbol;
   }
 
@@ -80,7 +80,7 @@ class Tile {
   }
 
   hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
+    return this.coordinateX == other.coordinateX && this.coordinateY == other.coordinateY;
   }
 
   updateSymbol(newSymbol: string) {
