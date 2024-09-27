@@ -1,12 +1,5 @@
 /* eslint-disable */
 
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
-
 const playerO = 'O';
 const noPlayer = ' ';
 
@@ -14,7 +7,7 @@ export class Game {
   private _lastPlayer = noPlayer;
   private _board: Board = new Board();
 
-  public Play(player: string, x: number, y: number): void {
+  public Play(player: string, x: Num, y: Num): void {
     this.validateFirstMove(player);
     this.validatePlayer(player);
     this.validatePositionIsEmpty(x, y);
@@ -37,7 +30,7 @@ export class Game {
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
+  private validatePositionIsEmpty(x: Num, y: Num) {
     if (this._board.isTilePlayedAt(x, y)) {
       throw new Error('Invalid position');
     }
@@ -92,8 +85,8 @@ class Board {
   private _plays: Tile[] = [];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
+    for (let x = Num.First; x <= Num.Third; x++) {
+      for (let y = Num.First; y <= Num.Third; y++) {
         this._plays.push(new Tile(x, y, noPlayer));
       }
     }
@@ -108,16 +101,16 @@ class Board {
   }
 
   public findRowFullWithSamePlayer(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSamePlayer(firstRow)) {
-      return this.playerAt(firstRow, firstColumn);
+    if (this.isRowFull(Num.First) && this.isRowFullWithSamePlayer(Num.First)) {
+      return this.playerAt(Num.First, Num.First);
     }
 
-    if (this.isRowFull(secondRow) && this.isRowFullWithSamePlayer(secondRow)) {
-      return this.playerAt(secondRow, firstColumn);
+    if (this.isRowFull(Num.Second) && this.isRowFullWithSamePlayer(Num.Second)) {
+      return this.playerAt(Num.Second, Num.First);
     }
 
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSamePlayer(thirdRow)) {
-      return this.playerAt(thirdRow, firstColumn);
+    if (this.isRowFull(Num.Third) && this.isRowFullWithSamePlayer(Num.Third)) {
+      return this.playerAt(Num.Third, Num.First);
     }
 
     return noPlayer;
@@ -141,16 +134,22 @@ class Board {
 
   private isRowFull(row: number) {
     return (
-      this.isTilePlayedAt(row, firstColumn) &&
-      this.isTilePlayedAt(row, secondColumn) &&
-      this.isTilePlayedAt(row, thirdColumn)
+      this.isTilePlayedAt(row, Num.First) &&
+      this.isTilePlayedAt(row, Num.Second) &&
+      this.isTilePlayedAt(row, Num.Third)
     );
   }
 
   private isRowFullWithSamePlayer(row: number) {
     return (
-      this.hasSamePlayer(row, firstColumn, row, secondColumn) &&
-      this.hasSamePlayer(row, secondColumn, row, thirdColumn)
+      this.hasSamePlayer(row, Num.First, row, Num.Second) &&
+      this.hasSamePlayer(row, Num.Second, row, Num.Third)
     );
   }
+}
+
+enum Num {
+  First = 0,
+  Second,
+  Third,
 }
